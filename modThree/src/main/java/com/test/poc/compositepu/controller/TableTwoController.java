@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/rest")
 public class TableTwoController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TableTwoController.class);
