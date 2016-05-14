@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="10 seconds">
+	<root level="info">
+		<appender name="FILE"
+				  class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>logger.log</file>
+			<!-- For date and size based rolling -->
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>20MB</maxFileSize> 
+				</timeBasedFileNamingAndTriggeringPolicy>
+			</rollingPolicy>
+			<!-- <append>false</append> -->
+			<encoder>
+				<pattern>%d [%thread] %-5level %logger{36} - %msg%n
+				</pattern>
+			</encoder>
+		</appender>
+	</root>
+</configuration>
