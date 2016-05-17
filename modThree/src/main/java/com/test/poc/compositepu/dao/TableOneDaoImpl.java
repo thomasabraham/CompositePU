@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.eclipse.persistence.internal.jpa.QueryImpl;
+import org.eclipse.persistence.queries.DatabaseQuery;
+import org.eclipse.persistence.queries.ReadQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -29,7 +32,15 @@ public class TableOneDaoImpl implements TableOneDao {
 				query.setFirstResult(start);
 			}
 			if (range != null) {
-				query.setMaxResults(range);
+				QueryImpl queryImpl = query.unwrap(QueryImpl.class);
+				queryImpl.setMaxResultsInternal(Integer.MAX_VALUE);
+				DatabaseQuery dbQuery = queryImpl.getDatabaseQueryInternal();
+				if(dbQuery instanceof ReadQuery){
+					ReadQuery readQuery = (ReadQuery) dbQuery;
+					readQuery.setMaxRows(range);
+					LOG.info("setMaxRows to range");
+				}
+				//query.setMaxResults(range);
 			}
 			result = query.getResultList();
 			LOG.info("<- getTableOneList returning {} objects", result.size());
